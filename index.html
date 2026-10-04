@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multinet Garage — Luxe Auto Gallery</title>
+<meta name="description" content="Showroom & galeri mobil premium Indonesia. Sport, sedan, SUV, EV & motor koleksi — foto unit asli, inspeksi 150 titik, kredit cepat.">
+<meta name="theme-color" content="#0B0C0F">
+<style>
+/* ============ FONTS (self-hosted) ============ */
+@font-face{font-family:'Plus Jakarta Sans';font-style:normal;font-weight:400;font-display:swap;src:url(assets/fonts/pjs-1.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F,U+2122,U+2212}
+@font-face{font-family:'Plus Jakarta Sans';font-style:normal;font-weight:600;font-display:swap;src:url(assets/fonts/pjs-2.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F,U+2122,U+2212}
+@font-face{font-family:'Plus Jakarta Sans';font-style:normal;font-weight:800;font-display:swap;src:url(assets/fonts/pjs-4.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F,U+2122,U+2212}
+@font-face{font-family:'Playfair Display';font-style:normal;font-weight:600;font-display:swap;src:url(assets/fonts/pf-600.woff2) format('woff2')}
+@font-face{font-family:'Playfair Display';font-style:normal;font-weight:700;font-display:swap;src:url(assets/fonts/pf-700.woff2) format('woff2')}
+/* ============ TOKENS ============ */
+:root{
+ --bg:#0B0C0F;--bg2:#0E1014;--panel:#14161C;--panel2:#191C24;
+ --line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.14);
+ --gold:#D4AF37;--gold2:#F0D488;--gold-d:#A97C1F;
+ --ggrad:linear-gradient(120deg,#F6E27A 0%,#D4AF37 45%,#B98A22 100%);
+ --txt:#F3F0E9;--muted:#9C9889;--muted2:#6F6C60;
+ --serif:'Playfair Display',Georgia,serif;
+ --sans:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
+ --r:18px;--r-lg:26px;
+ --sh-gold:0 14px 44px -12px rgba(212,175,55,.45);
+ --ease:cubic-bezier(.19,1,.22,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:var(--sans);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body.lock{overflow:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;font-size:inherit}
+::selection{background:var(--gold);color:#0B0C0F}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:#26292F;border-radius:99px;border:2px solid var(--bg)}
+::-webkit-scrollbar-thumb:hover{background:var(--gold-d)}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.14;letter-spacing:-.01em}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11.5px;font-weight:800;letter-spacing:.32em;text-transform:uppercase;color:var(--gold)}
+.eyebrow::before{content:"";width:34px;height:1px;background:var(--gold);opacity:.7}
+.sec{padding:96px 0}
+.sec-h{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:44px}
+.sec-h h2{font-size:clamp(30px,4.2vw,52px);margin-top:14px}
+.sec-h h2 em{font-style:italic;color:transparent;background:var(--ggrad);-webkit-background-clip:text;background-clip:text}
+.sec-h .sub{color:var(--muted);max-width:420px;font-size:14.5px}
+@media(max-width:760px){.sec{padding:64px 0}.sec-h{flex-direction:column;align-items:flex-start}}
+/* ============ CURSOR ============ */
+@media(hover:hover) and (pointer:fine){
+ .cur,.cur-d{position:fixed;top:0;left:0;pointer-events:none;z-index:1000;border-radius:50%;transform:translate(-50%,-50%)}
+ .cur{width:36px;height:36px;border:1.5px solid rgba(212,175,55,.65);transition:width .25s,height .25s,border-color .25s,background .25s}
+ .cur.big{width:64px;height:64px;border-color:var(--gold);background:rgba(212,175,55,.08)}
+ .cur-d{width:5px;height:5px;background:var(--gold)}
+}
+@media(hover:none),(pointer:coarse){.cur,.cur-d{display:none}}
+/* ============ PRELOADER ============ */
+#pre{position:fixed;inset:0;z-index:900;background:var(--bg);display:grid;place-items:center;transition:transform .9s var(--ease),opacity .6s;will-change:transform}
+#pre.off{transform:translateY(-100%);opacity:.4;pointer-events:none}
+#pre .in{text-align:center}
+#pre .mono{width:84px;height:84px;margin:0 auto 22px;border:1.5px solid var(--line2);border-radius:50%;display:grid;place-items:center;font-family:var(--serif);font-size:30px;font-weight:700;color:var(--gold);animation:monoPulse 1.6s ease infinite}
+@keyframes monoPulse{0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,.25)}50%{box-shadow:0 0 0 18px rgba(212,175,55,0)}}
+#pre .nm{font-family:var(--serif);font-size:22px;letter-spacing:.14em;text-transform:uppercase}
+#pre .nm b{color:var(--gold);font-weight:700}
+#pre .bar{width:180px;height:1px;background:var(--line);margin:18px auto 10px;position:relative;overflow:hidden}
+#pre .bar i{position:absolute;inset:0;background:var(--ggrad);transform-origin:left;transform:scaleX(0)}
+#pre .pct{font-size:11px;letter-spacing:.3em;color:var(--muted)}
+/* ============ NAV ============ */
+.nav{position:fixed;top:0;left:0;right:0;z-index:120;transition:background .35s,border-color .35s,backdrop-filter .35s;border-bottom:1px solid transparent}
+.nav.solid{background:rgba(11,12,15,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-color:var(--line)}
+.nav-in{max-width:1240px;margin:0 auto;padding:0 24px;height:76px;display:flex;align-items:center;gap:30px}
+.logo{display:flex;align-items:center;gap:12px;font-family:var(--serif);flex-shrink:0}
+.logo .lm{width:42px;height:42px;border:1.5px solid var(--gold);border-radius:50%;display:grid;place-items:center;font-size:17px;font-weight:700;color:var(--gold)}
+.logo .lt{line-height:1.15}
+.logo .lt b{display:block;font-size:16.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.logo .lt span{display:block;font-size:9.5px;letter-spacing:.34em;color:var(--gold);text-transform:uppercase}
+.nav-lk{display:flex;gap:4px;margin:0 auto}
+.nav-lk a{position:relative;padding:9px 14px;font-size:13px;font-weight:600;letter-spacing:.06em;color:var(--muted);transition:color .25s}
+.nav-lk a::after{content:"";position:absolute;left:14px;right:14px;bottom:4px;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
+.nav-lk a:hover{color:var(--txt)}
+.nav-lk a:hover::after{transform:scaleX(1)}
+.nav-cta{display:flex;align-items:center;gap:12px}
+.burger{display:none;width:44px;height:44px;border:1px solid var(--line2);border-radius:12px;place-items:center}
+.burger svg{width:20px;height:20px}
+.mmenu{position:fixed;inset:0;z-index:200;background:rgba(11,12,15,.97);backdrop-filter:blur(20px);display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .35s}
+.mmenu.on{opacity:1;pointer-events:auto}
+.mmenu a{display:block;font-family:var(--serif);font-size:clamp(30px,8vw,44px);padding:10px 0;text-align:center;color:var(--txt);opacity:0;transform:translateY(24px);transition:.5s var(--ease)}
+.mmenu.on a{opacity:1;transform:none}
+.mmenu a:hover{color:var(--gold)}
+.mmenu .mx{position:absolute;top:22px;right:22px;width:46px;height:46px;border:1px solid var(--line2);border-radius:50%;display:grid;place-items:center}
+@media(max-width:940px){.nav-lk{display:none}.nav-cta .btn{display:none}.burger{display:grid}}
+/* ============ BUTTONS ============ */
+.btn{position:relative;display:inline-flex;align-items:center;gap:9px;font-weight:700;font-size:13.5px;letter-spacing:.04em;padding:14px 26px;border-radius:99px;overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s,border-color .3s;white-space:nowrap}
+.btn svg{width:16px;height:16px}
+.btn:active{transform:scale(.97)}
+.btn-gold{background:var(--ggrad);color:#14100A;box-shadow:var(--sh-gold)}
+.btn-gold::before{content:"";position:absolute;top:0;left:-80%;width:50%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);transition:left .6s}
+.btn-gold:hover::before{left:130%}
+.btn-gold:hover{transform:translateY(-2px)}
+.btn-ghost{border:1px solid var(--line2);color:var(--txt)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+.btn-sm{padding:10px 18px;font-size:12.5px}
+/* ============ HERO ============ */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;isolation:isolate}
+.hero .bg{position:absolute;inset:-6%;z-index:-2;background:url(assets/img/hero-supercar.jpg) center/cover no-repeat;animation:kb 22s var(--ease) infinite alternate;filter:saturate(1.05)}
+@keyframes kb{from{transform:scale(1) translateY(0)}to{transform:scale(1.12) translateY(-1.5%)}}
+.hero .veil{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(11,12,15,.72) 0%,rgba(11,12,15,.45) 40%,rgba(11,12,15,.92) 88%,var(--bg) 100%),radial-gradient(60% 50% at 20% 60%,rgba(11,12,15,.55),transparent)}
+.hero-in{padding:140px 0 40px}
+.hero .eyebrow{opacity:0;transform:translateY(18px);transition:.8s var(--ease) .15s}
+.hero h1{font-size:clamp(46px,8.4vw,104px);font-weight:700;margin:20px 0 8px;letter-spacing:-.02em}
+.hl{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
+.hl i{display:block;font-style:normal;transform:translateY(112%);transition:transform 1s var(--ease)}
+.hl:nth-child(1) i{transition-delay:.25s}.hl:nth-child(2) i{transition-delay:.37s}.hl:nth-child(3) i{transition-delay:.49s}
+body.loaded .hl i{transform:none}
+body.loaded .hero .eyebrow{opacity:1;transform:none}
+h1 em{font-style:italic;color:transparent;background:var(--ggrad);-webkit-background-clip:text;background-clip:text}
+.hero p.lead{max-width:560px;color:#C9C5B8;font-size:16px;margin:18px 0 34px;opacity:0;transform:translateY(18px);transition:.8s var(--ease) .7s}
+.hero .cta{display:flex;gap:14px;flex-wrap:wrap;opacity:0;transform:translateY(18px);transition:.8s var(--ease) .85s}
+body.loaded .hero p.lead,body.loaded .hero .cta{opacity:1;transform:none}
+.hero-stats{display:flex;gap:44px;margin-top:58px;flex-wrap:wrap;opacity:0;transform:translateY(18px);transition:.8s var(--ease) 1s}
+body.loaded .hero-stats{opacity:1;transform:none}
+.hst b{display:block;font-family:var(--serif);font-size:clamp(26px,3.4vw,38px);font-weight:700;color:var(--txt)}
+.hst b em{font-style:normal;color:var(--gold)}
+.hst span{font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.scrolldn{position:absolute;bottom:110px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--muted);font-size:10px;letter-spacing:.3em;text-transform:uppercase;opacity:0;transition:opacity 1s 1.4s}
+body.loaded .scrolldn{opacity:1}
+.scrolldn .ln{width:1px;height:44px;background:linear-gradient(180deg,var(--gold),transparent);animation:drip 1.8s ease infinite}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}55%{transform:scaleY(1);transform-origin:top}56%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@media(max-width:640px){.scrolldn{display:none}}
+/* ============ MARQUEE ============ */
+.mq{border-block:1px solid var(--line);background:var(--bg2);overflow:hidden;padding:18px 0}
+.mq-track{display:flex;gap:56px;width:max-content;animation:mq 30s linear infinite}
+.mq:hover .mq-track{animation-play-state:paused}
+.mq-track span{display:flex;align-items:center;gap:56px;font-family:var(--serif);font-style:italic;font-size:17px;color:var(--muted2);white-space:nowrap}
+.mq-track span::after{content:"✦";font-style:normal;color:var(--gold);font-size:12px}
+@keyframes mq{to{transform:translateX(-50%)}}
+/* ============ REVEAL ============ */
+.io{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.io.in{opacity:1;transform:none}
+/* ============ CARDS ============ */
+.grid-c{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:1020px){.grid-c{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.grid-c{grid-template-columns:1fr}}
+.vcard{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:var(--r);overflow:hidden;position:relative;transition:transform .5s var(--ease),box-shadow .5s,border-color .4s;transform-style:preserve-3d}
+.vcard:hover{border-color:rgba(212,175,55,.4);box-shadow:0 30px 70px -28px rgba(0,0,0,.8),0 0 0 1px rgba(212,175,55,.12)}
+.vc-media{position:relative;aspect-ratio:16/11;overflow:hidden;cursor:pointer}
+.vc-media img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s var(--ease),filter .6s}
+.vcard:hover .vc-media img{transform:scale(1.08)}
+.vc-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(11,12,15,.65));opacity:.9}
+.vc-bdg{position:absolute;top:14px;left:14px;z-index:2;display:flex;gap:6px}
+.bdg{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:6px 11px;border-radius:99px;backdrop-filter:blur(8px)}
+.bdg-new{background:rgba(212,175,55,.92);color:#14100A}
+.bdg-glass{background:rgba(11,12,15,.55);color:#E9E4D4;border:1px solid rgba(255,255,255,.14)}
+.fav{position:absolute;top:12px;right:12px;z-index:2;width:38px;height:38px;border-radius:50%;background:rgba(11,12,15,.55);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.14);display:grid;place-items:center;color:#DDD8C6;transition:.3s}
+.fav svg{width:16px;height:16px}
+.fav:hover{transform:scale(1.12);color:var(--gold)}
+.fav.on{color:var(--gold)}
+.fav.on svg{fill:var(--gold)}
+.vc-body{padding:20px 22px 22px}
+.vc-cat{font-size:10.5px;font-weight:800;letter-spacing:.26em;text-transform:uppercase;color:var(--gold)}
+.vc-t{font-family:var(--serif);font-size:21px;font-weight:600;margin:7px 0 4px}
+.vc-meta{display:flex;gap:14px;color:var(--muted);font-size:12.5px;flex-wrap:wrap}
+.vc-meta span{display:inline-flex;align-items:center;gap:5px}
+.vc-meta svg{width:13px;height:13px;color:var(--gold-d)}
+.vc-foot{display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:15px;border-top:1px solid var(--line)}
+.vc-price{font-family:var(--serif);font-size:20px;font-weight:700;color:transparent;background:var(--ggrad);-webkit-background-clip:text;background-clip:text}
+.vc-act{display:flex;gap:8px}
+.ic{width:38px;height:38px;border-radius:50%;border:1px solid var(--line2);display:grid;place-items:center;color:var(--muted);transition:.3s}
+.ic svg{width:15px;height:15px}
+.ic:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+.ic.gold{background:var(--ggrad);border:none;color:#14100A}
+.ic.gold:hover{box-shadow:var(--sh-gold);color:#14100A}
+/* ============ FILTER ============ */
+.fbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:34px}
+.fbtn{padding:10px 20px;border-radius:99px;border:1px solid var(--line2);font-size:12.5px;font-weight:700;letter-spacing:.06em;color:var(--muted);transition:.3s}
+.fbtn:hover{border-color:var(--gold);color:var(--gold)}
+.fbtn.on{background:var(--ggrad);border-color:transparent;color:#14100A}
+.fsearch{margin-left:auto;position:relative}
+.fsearch input{background:var(--panel);border:1px solid var(--line2);border-radius:99px;padding:11px 16px 11px 40px;color:var(--txt);font-family:inherit;font-size:13px;width:210px;outline:none;transition:border-color .3s,width .4s}
+.fsearch input:focus{border-color:var(--gold);width:250px}
+.fsearch svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--muted)}
+@media(max-width:760px){.fsearch{margin-left:0;width:100%}.fsearch input{width:100%}.fsearch input:focus{width:100%}}
+.empty{padding:70px 20px;text-align:center;color:var(--muted);display:none}
+.empty b{display:block;font-family:var(--serif);font-size:22px;color:var(--txt);margin-bottom:6px}
+/* ============ SPOTLIGHT ============ */
+.spot{background:var(--bg2);border-block:1px solid var(--line);overflow:hidden}
+.spot-in{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center;padding:96px 0}
+@media(max-width:1020px){.spot-in{grid-template-columns:1fr;gap:36px;padding:64px 0}}
+.spot-img{position:relative;border-radius:var(--r-lg);overflow:hidden;aspect-ratio:4/3.4}
+.spot-img img{width:112%;height:112%;object-fit:cover;will-change:transform}
+.spot-img .frame{position:absolute;inset:18px;border:1px solid rgba(255,255,255,.22);border-radius:calc(var(--r-lg) - 10px);pointer-events:none}
+.spot-img .chip{position:absolute;bottom:22px;left:22px;background:rgba(11,12,15,.72);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:12px 18px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#E9E4D4}
+.spot-img .chip b{display:block;font-family:var(--serif);font-size:17px;letter-spacing:0;text-transform:none;color:var(--gold);margin-top:2px}
+.spot h2{font-size:clamp(32px,4.6vw,56px);margin:16px 0 16px}
+.spot p{color:var(--muted);max-width:480px}
+.specs{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin:30px 0}
+.specs>div{background:var(--bg);padding:20px 18px}
+.specs b{display:block;font-family:var(--serif);font-size:clamp(24px,2.8vw,34px);font-weight:700;color:var(--gold)}
+.specs span{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+/* ============ WHY ============ */
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+@media(max-width:1020px){.g4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.g4{grid-template-columns:1fr}}
+.wcard{position:relative;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:var(--r);padding:30px 26px;overflow:hidden;transition:transform .5s var(--ease),border-color .4s}
+.wcard::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--ggrad);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.wcard:hover{transform:translateY(-6px);border-color:rgba(212,175,55,.35)}
+.wcard:hover::before{transform:scaleX(1)}
+.wcard .wn{position:absolute;top:18px;right:22px;font-family:var(--serif);font-size:44px;font-weight:700;color:transparent;-webkit-text-stroke:1px rgba(212,175,55,.28)}
+.wic{width:52px;height:52px;border-radius:14px;background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.3);display:grid;place-items:center;color:var(--gold);margin-bottom:18px}
+.wic svg{width:23px;height:23px}
+.wcard h3{font-size:19px;margin-bottom:8px}
+.wcard p{color:var(--muted);font-size:13.5px}
+/* ============ TESTIMONI ============ */
+.tst{background:var(--bg2);border-block:1px solid var(--line)}
+.tst-wrap{max-width:820px;margin:0 auto;text-align:center;padding:90px 24px;position:relative}
+.tst .q{font-family:var(--serif);font-size:90px;line-height:.4;color:rgba(212,175,55,.35);display:block;margin-bottom:34px}
+.tslide{display:none;animation:tIn .7s var(--ease)}
+.tslide.on{display:block}
+@keyframes tIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.tslide p{font-family:var(--serif);font-style:italic;font-size:clamp(19px,2.6vw,27px);line-height:1.5;color:#DDD8C8}
+.tslide .who{margin-top:28px;display:flex;flex-direction:column;gap:4px;align-items:center}
+.tslide .who b{font-size:14px;letter-spacing:.08em}
+.tslide .who span{font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.tstars{display:flex;gap:4px;justify-content:center;color:var(--gold);margin-bottom:24px}
+.tstars svg{width:15px;height:15px;fill:currentColor}
+.tdots{display:flex;gap:8px;justify-content:center;margin-top:34px}
+.tdots button{width:26px;height:3px;border-radius:99px;background:var(--line2);transition:.3s}
+.tdots button.on{background:var(--gold);width:40px}
+/* ============ GALLERY ============ */
+.gal{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.gal .gimg{position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:4/4.6;cursor:zoom-in}
+.gal .gimg:nth-child(1){grid-column:span 2;aspect-ratio:auto}
+.gal .gimg:nth-child(4){grid-column:span 2;aspect-ratio:auto}
+.gal .gimg img{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease)}
+.gal .gimg:hover img{transform:scale(1.07)}
+.gal .gimg figcaption{position:absolute;inset:auto 0 0 0;padding:44px 18px 16px;background:linear-gradient(180deg,transparent,rgba(11,12,15,.85));font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#E9E4D4;display:flex;justify-content:space-between;align-items:center}
+.gal .gimg figcaption b{color:var(--gold)}
+@media(max-width:760px){.gal{grid-template-columns:repeat(2,1fr)}.gal .gimg{aspect-ratio:1/1!important;grid-column:span 1!important}}
+/* ============ CTA ============ */
+.cta-band{position:relative;overflow:hidden;border-radius:var(--r-lg);isolation:isolate;margin:0 24px}
+@media(min-width:1280px){.cta-band{margin:0 auto;max-width:1192px}}
+.cta-band .bgi{position:absolute;inset:0;z-index:-1}
+.cta-band .bgi img{width:100%;height:100%;object-fit:cover}
+.cta-band .bgi::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,12,15,.94) 20%,rgba(11,12,15,.55) 70%,rgba(11,12,15,.35))}
+.cta-band .in{padding:clamp(48px,7vw,88px);max-width:640px}
+.cta-band h2{font-size:clamp(30px,4.4vw,50px);margin:16px 0 14px}
+.cta-band p{color:#C9C5B8;margin-bottom:30px}
+/* ============ FOOTER ============ */
+footer{margin-top:96px;border-top:1px solid var(--line);background:var(--bg2)}
+.ft-in{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:36px;padding:64px 0 44px}
+@media(max-width:940px){.ft-in{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.ft-in{grid-template-columns:1fr}}
+.ft-in h4{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;font-family:var(--sans);font-weight:800}
+.ft-in a{display:block;padding:5px 0;color:var(--muted);font-size:13.5px;transition:.25s}
+.ft-in a:hover{color:var(--gold);transform:translateX(4px)}
+.ft-brand p{color:var(--muted);font-size:13.5px;max-width:300px;margin-top:14px}
+.soc{display:flex;gap:10px;margin-top:20px}
+.soc a{width:40px;height:40px;border:1px solid var(--line2);border-radius:50%;display:grid;place-items:center;color:var(--muted);padding:0}
+.soc a:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-3px)}
+.soc svg{width:16px;height:16px}
+.ft-bot{border-top:1px solid var(--line);padding:20px 0;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted2);font-size:12px}
+.ft-bot b{color:var(--gold)}
+/* ============ LIGHTBOX / TOAST / TOP ============ */
+.lbx{position:fixed;inset:0;z-index:300;background:rgba(8,9,12,.95);backdrop-filter:blur(10px);display:grid;place-items:center;animation:fIn .3s;cursor:zoom-out}
+@keyframes fIn{from{opacity:0}}
+.lbx img{max-width:90vw;max-height:84vh;border-radius:14px;box-shadow:0 40px 120px -30px rgba(0,0,0,.9)}
+.lbx .x{position:absolute;top:24px;right:24px;width:46px;height:46px;border:1px solid var(--line2);border-radius:50%;display:grid;place-items:center;color:#fff}
+.lbx .x:hover{border-color:var(--gold);color:var(--gold)}
+#toast{position:fixed;bottom:28px;left:50%;transform:translate(-50%,80px);z-index:400;background:var(--panel2);border:1px solid rgba(212,175,55,.4);color:var(--txt);padding:13px 22px;border-radius:99px;font-size:13px;font-weight:600;display:flex;gap:10px;align-items:center;box-shadow:0 20px 50px -12px rgba(0,0,0,.7);transition:transform .5s var(--ease),opacity .5s;opacity:0}
+#toast.on{transform:translate(-50%,0);opacity:1}
+#toast svg{width:16px;height:16px;color:var(--gold)}
+#top{position:fixed;bottom:26px;right:26px;z-index:110;width:48px;height:48px;border-radius:50%;background:var(--ggrad);color:#14100A;display:grid;place-items:center;box-shadow:var(--sh-gold);opacity:0;pointer-events:none;transform:translateY(14px);transition:.4s}
+#top.on{opacity:1;pointer-events:auto;transform:none}
+#top:hover{transform:translateY(-3px)}
+#top svg{width:18px;height:18px}
+@media(max-width:640px){#top{bottom:18px;right:18px}}
+</style>
+</head>
+<body>
+
+<div id="pre"><div class="in">
+ <div class="mono">M</div>
+ <div class="nm">Multinet <b>Garage</b></div>
+ <div class="bar"><i id="preBar"></i></div>
+ <div class="pct" id="prePct">0%</div>
+</div></div>
+
+<div class="cur" id="cur"></div><div class="cur-d" id="curD"></div>
+
+<header class="nav" id="nav"><div class="nav-in">
+ <a class="logo" href="#beranda">
+  <span class="lm">M</span>
+  <span class="lt"><b>Multinet Garage</b><span>Luxe Auto Gallery</span></span>
+ </a>
+ <nav class="nav-lk">
+  <a href="#koleksi">Koleksi</a>
+  <a href="#sorotan">Sorotan</a>
+  <a href="#keunggulan">Keunggulan</a>
+  <a href="#testimoni">Testimoni</a>
+  <a href="#galeri">Galeri</a>
+ </nav>
+ <div class="nav-cta">
+  <a class="btn btn-gold btn-sm" href="#koleksi">Lihat Koleksi
+   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  <button class="burger" id="burger" aria-label="Buka menu">
+   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h12"/></svg></button>
+ </div>
+</div></header>
+
+<div class="mmenu" id="mmenu">
+ <button class="mx" id="mmenuX" aria-label="Tutup menu"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+ <div>
+  <a href="#koleksi" style="transition-delay:.08s">Koleksi</a>
+  <a href="#sorotan" style="transition-delay:.16s">Sorotan</a>
+  <a href="#keunggulan" style="transition-delay:.24s">Keunggulan</a>
+  <a href="#testimoni" style="transition-delay:.32s">Testimoni</a>
+  <a href="#galeri" style="transition-delay:.4s">Galeri</a>
+ </div>
+</div>
+
+<main>
+<!-- HERO -->
+<section class="hero" id="beranda">
+ <div class="bg"></div><div class="veil"></div>
+ <div class="wrap hero-in">
+  <span class="eyebrow">Showroom Premium · Sejak 2014</span>
+  <h1>
+   <span class="hl"><i>Temukan</i></span>
+   <span class="hl"><i><em>Mobil Impian</em> Anda</i></span>
+   <span class="hl"><i>Di Sini.</i></span>
+  </h1>
+  <p class="lead">Kurasi kendaraan premium — sport, sedan, SUV, hingga listrik & motor koleksi. Setiap unit melalui inspeksi 150 titik dan dipamerkan dengan foto asli, bukan render.</p>
+  <div class="cta">
+   <a class="btn btn-gold" href="#koleksi">Jelajahi Koleksi
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+   <a class="btn btn-ghost" href="#sorotan">Unit Pameran Minggu Ini</a>
+  </div>
+  <div class="hero-stats">
+   <div class="hst"><b><em>240</em>+</b><span>Unit Terjual</span></div>
+   <div class="hst"><b><em>98</em>%</b><span>Kepuasan Klien</span></div>
+   <div class="hst"><b><em>12</em></b><span>Merek Premium</span></div>
+   <div class="hst"><b><em>150</em></b><span>Titik Inspeksi</span></div>
+  </div>
+ </div>
+ <div class="scrolldn"><span>Gulir</span><span class="ln"></span></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq" aria-hidden="true"><div class="mq-track" id="mqTrack">
+ <span>Ferrari</span><span>Lamborghini</span><span>Porsche</span><span>Rolls-Royce</span><span>Mercedes-AMG</span><span>BMW M</span><span>Audi Sport</span><span>Tesla</span><span>Ducati</span><span>Ford Heritage</span>
+</div></div>
+
+<!-- KOLEKSI -->
+<section class="sec" id="koleksi"><div class="wrap">
+ <div class="sec-h io">
+  <div>
+   <span class="eyebrow">Koleksi Unggulan</span>
+   <h2>Unit <em>Pilihan</em> Kurator</h2>
+  </div>
+  <p class="sub">Dipilih satu per satu berdasarkan kondisi, riwayat servis, dan kelangkaan. Foto di halaman ini adalah foto unit asli.</p>
+ </div>
+ <div class="fbar io">
+  <button class="fbtn on" data-f="semua">Semua</button>
+  <button class="fbtn" data-f="sport">Sport</button>
+  <button class="fbtn" data-f="sedan">Sedan</button>
+  <button class="fbtn" data-f="suv">SUV</button>
+  <button class="fbtn" data-f="ev">Listrik</button>
+  <button class="fbtn" data-f="klasik">Klasik</button>
+  <button class="fbtn" data-f="motor">Motor</button>
+  <div class="fsearch">
+   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+   <input id="q" type="text" placeholder="Cari unit…" aria-label="Cari unit">
+  </div>
+ </div>
+ <div class="grid-c" id="grid"></div>
+ <div class="empty" id="empty"><b>Tidak ada unit yang cocok</b>Coba kata kunci atau kategori lain.</div>
+</div></section>
+
+<!-- SPOTLIGHT -->
+<section class="spot" id="sorotan">
+ <div class="wrap spot-in">
+  <div class="spot-img io" id="spotImg">
+   <img src="assets/img/lamborghini-urus.jpg" alt="Lamborghini Urus di showroom" loading="lazy">
+   <span class="frame"></span>
+   <span class="chip">Unit Pameran<b>Lamborghini Urus 2021</b></span>
+  </div>
+  <div>
+   <span class="eyebrow io">Sorotan Minggu Ini</span>
+   <h2 class="io">Lamborghini Urus <em>Super SUV</em></h2>
+   <p class="io">Super SUV pertama dari Sant'Agata — ferocitas balap dalam paket keluarga. Unit 2021 warna Nero Helene, kilometer rendah 14.800 km, full service record resmi, garansi hingga 2026.</p>
+   <div class="specs io">
+    <div><b data-count="650">0</b><span>CV Tenaga</span></div>
+    <div><b data-count="3.6" data-dec="1">0</b><span>Detik 0–100 km/j</span></div>
+    <div><b data-count="305">0</b><span>Km/j Top Speed</span></div>
+   </div>
+   <div class="io" style="display:flex;gap:14px;flex-wrap:wrap">
+    <a class="btn btn-gold" href="https://wa.me/6281234567890?text=Halo%2C%20saya%20tertarik%20dengan%20Lamborghini%20Urus%202021" target="_blank" rel="noopener">Jadwalkan Kunjungan
+     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <button class="btn btn-ghost" data-toast="Brosur unit dikirim ke percakapan Anda (demo).">Minta Brosur</button>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- KEUNGGULAN -->
+<section class="sec" id="keunggulan"><div class="wrap">
+ <div class="sec-h io">
+  <div>
+   <span class="eyebrow">Mengapa Kami</span>
+   <h2>Standar <em>Butik</em>, Bukan Pasar</h2>
+  </div>
+  <p class="sub">Kami menjual sedikit, tapi benar. Setiap unit adalah keputusan kurasi, bukan stok massal.</p>
+ </div>
+ <div class="g4">
+  <div class="wcard io"><span class="wn">01</span>
+   <div class="wic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4.5"/></svg></div>
+   <h3>Inspeksi 150 Titik</h3>
+   <p>Mesin, sasis, elektrik, hingga historis kecelakaan — diperiksa teknisi bersertifikat sebelum dipajang.</p>
+  </div>
+  <div class="wcard io" style="transition-delay:.08s"><span class="wn">02</span>
+   <div class="wic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="12" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2M3 13h18"/></svg></div>
+   <h3>Garansi Mesin 3–12 Bulan</h3>
+   <p>Garansi mesin & transmisi tertulis. Jika ada klaim, perbaikan di bengkel rekanan tanpa biaya.</p>
+  </div>
+  <div class="wcard io" style="transition-delay:.16s"><span class="wn">03</span>
+   <div class="wic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16l-4-4 4-4M17 8l4 4-4 4M3 12h18"/></svg></div>
+   <h3>Tukar Tambah Adil</h3>
+   <p>Appresiasi unit lama berbasis data pasar real-time. Proses penilaian hanya 60 menit di showroom.</p>
+  </div>
+  <div class="wcard io" style="transition-delay:.24s"><span class="wn">04</span>
+   <div class="wic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div>
+   <h3>Kredit Disetujui 1×24 Jam</h3>
+   <p>12 leasing mitra bersaing untuk bunga terbaik. DP fleksibel, tenor hingga 84 bulan.</p>
+  </div>
+ </div>
+</div></section>
+
+<!-- TESTIMONI -->
+<section class="tst" id="testimoni">
+ <div class="tst-wrap io">
+  <span class="q">&ldquo;</span>
+  <div id="tslides">
+   <div class="tslide on">
+    <div class="tstars"><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.7 1.4 6.9L12 17.3 5.8 20.9l1.4-6.9L2 9.3l7-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.7 1.4 6.9L12 17.3 5.8 20.9l1.4-6.9L2 9.3l7-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.7 1.4 6.9L12 17.3 5.8 20.9l1.4-6.9L2 9.3l7-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.7 1.4 6.9L12 17.3 5.8 20.9l1.4-6.9L2 9.3l7-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.7 1.4 6.9L12 17.3 5.8 20.9l1.4-6.9L2 9.3l7-.8z"/></svg></div>
+    <p>Proses dari tes drive sampai serah terima cuma empat hari. Semua dokumen beres, kondisi unit persis seperti foto di website. Jarang ada showroom sejujur ini.</p>
+    <div class="who"><b>Richard Wijaya</b><span>Pemilik Porsche 911 Carrera</span></div>
+   </div>
+   <div class="tslide">
+    <div class="tstars"><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.7 1.4 6.9L12 17.3 5.8 20.9l1.4-6.9L2 9.3l7-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.7 1.4 6.9L12 17.3 5.8 20.9l1.4-6.9L2 9.3l7-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.7 1.4 6.9L12 17.3 5.8 20.9l1.4-6.9L2 9.3l7-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.7 1.4 6.9L12 17.3 5.8 20.9l1.4-6.9L2 9.3l7-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.7 1.4 6.9L12 17.3 5.8 20.9l1.4-6.9L2 9.3l7-.8z"/></svg></div>
+    <p>Tukar tambah Camaro lama saya dinilai sangat wajar, tanpa tawar-menawar panjang. Kredit disetujui pagi, sorenya unit sudah di garasi rumah.</p>
+    <div class="who"><b>Amelia Hartono</b><span>Pemilik Ford Mustang GT</span></div>
+   </div>
+   <div class="tslide">
+    <div class="tstars"><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.7 1.4 6.9L12 17.3 5.8 20.9l1.4-6.9L2 9.3l7-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.7 1.4 6.9L12 17.3 5.8 20.9l1.4-6.9L2 9.3l7-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.7 1.4 6.9L12 17.3 5.8 20.9l1.4-6.9L2 9.3l7-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.7 1.4 6.9L12 17.3 5.8 20.9l1.4-6.9L2 9.3l7-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.7 1.4 6.9L12 17.3 5.8 20.9l1.4-6.9L2 9.3l7-.8z"/></svg></div>
+    <p>Belajar banyak dari tim mereka sebelum akhirnya mantap ambil Model S. Tidak pernah feel dijual-in, feeling-nya konsultasi. Recommended banget.</p>
+    <div class="who"><b>Bagas Prakoso</b><span>Pemilik Tesla Model S</span></div>
+   </div>
+  </div>
+  <div class="tdots" id="tdots"></div>
+ </div>
+</section>
+
+<!-- GALERI -->
+<section class="sec" id="galeri"><div class="wrap">
+ <div class="sec-h io">
+  <div>
+   <span class="eyebrow">Galeri Showroom</span>
+   <h2>Suasana <em>Di Balik Kaca</em></h2>
+  </div>
+  <p class="sub">Showroom kami di Jakarta Selatan — terbuka Senin–Sabtu, 09.00–19.00 WIB. Kunjungan privat bisa dijadwalkan.</p>
+ </div>
+ <div class="gal io">
+  <figure class="gimg" data-lb><img src="assets/img/showroom-1.jpg" alt="Interior showroom Multinet Garage" loading="lazy"><figcaption>Showroom Utama <b>01</b></figcaption></figure>
+  <figure class="gimg" data-lb><img src="assets/img/detail-engine.jpg" alt="Detail mesin unit koleksi" loading="lazy"><figcaption>Detail Mesin <b>02</b></figcaption></figure>
+  <figure class="gimg" data-lb><img src="assets/img/detail-wheel.jpg" alt="Detail velg dan rem" loading="lazy"><figcaption>Wheel & Brake <b>03</b></figcaption></figure>
+  <figure class="gimg" data-lb><img src="assets/img/showroom-3.jpg" alt="Area display kendaraan" loading="lazy"><figcaption>Display Area <b>04</b></figcaption></figure>
+ </div>
+</div></section>
+
+<!-- CTA -->
+<section class="io"><div class="cta-band">
+ <div class="bgi"><img src="assets/img/key-handover.jpg" alt="Serah terima kunci kendaraan" loading="lazy"></div>
+ <div class="in">
+  <span class="eyebrow">Jual & Konsignasi</span>
+  <h2>Punya Unit Premium? <em>Pajang</em> di Sini.</h2>
+  <p>Konsignasi tanpa biaya — kami yang foto, promosikan, dan layani pembeli. Anda terima penuh harga kesepakatan.</p>
+  <a class="btn btn-gold" href="https://wa.me/6281234567890?text=Halo%2C%20saya%20ingin%20konsignasi%20unit" target="_blank" rel="noopener">Konsultasi Konsignasi
+   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+ </div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+ <div class="ft-in">
+  <div class="ft-brand">
+   <a class="logo" href="#beranda"><span class="lm">M</span><span class="lt"><b>Multinet Garage</b><span>Luxe Auto Gallery</span></span></a>
+   <p>Galeri kendaraan premium dengan standar butik. Kurasi ketat, transparansi penuh, layanan personal.</p>
+   <div class="soc">
+    <a href="#" data-toast="Menghubungkan ke Instagram (demo)." aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></a>
+    <a href="#" data-toast="Menghubungkan ke YouTube (demo)." aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10.5 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg></a>
+    <a href="#" data-toast="Menghubungkan ke TikTok (demo)." aria-label="TikTok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9.5 8.5v7a3.5 3.5 0 11-3.5-3.5"/><path d="M9.5 3h3.2c.3 2.8 2 4.6 4.8 4.9v3c-1.9-.05-3.6-.6-5-1.6v6.2"/></svg></a>
+   </div>
+  </div>
+  <div>
+   <h4>Navigasi</h4>
+   <a href="#koleksi">Koleksi</a><a href="#sorotan">Sorotan</a><a href="#keunggulan">Keunggulan</a><a href="#galeri">Galeri</a>
+  </div>
+  <div>
+   <h4>Layanan</h4>
+   <a href="#" data-toast="Halaman Pembelian Tunai (demo).">Pembelian Tunai</a>
+   <a href="#" data-toast="Halaman Simulasi Kredit (demo).">Simulasi Kredit</a>
+   <a href="#" data-toast="Halaman Tukar Tambah (demo).">Tukar Tambah</a>
+   <a href="#" data-toast="Halaman Konsignasi (demo).">Konsignasi</a>
+  </div>
+  <div>
+   <h4>Showroom</h4>
+   <a href="#">Jl. TB Simatupang No. 88, Jakarta Selatan</a>
+   <a href="#">Senin–Sabtu · 09.00–19.00 WIB</a>
+   <a href="tel:+622172801122">021-7280-1122</a>
+   <a href="https://wa.me/6281234567890" target="_blank" rel="noopener">WhatsApp 0812-3456-7890</a>
+  </div>
+ </div>
+ <div class="ft-bot"><span>© 2026 <b>Multinet Garage</b>. Seluruh hak cipta dilindungi.</span><span>Jakarta · Bandung · Surabaya</span></div>
+</div></footer>
+
+<div id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg><span id="toastMsg"></span></div>
+<button id="top" aria-label="Kembali ke atas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button>
+
+<script>
+'use strict';
+const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
+const WA='6281234567890';
+const rupiah=s=>s;
+/* ---------- Data unit (foto asli, statis) ---------- */
+const UNITS=[
+ {cat:'sport', bdg:'Tersedia', name:'Ferrari 488 GTB', yr:2019, km:'18.200 km', tr:'DCT', en:'3.9L V8 Twin-Turbo', pr:'Rp 5,89 M', img:'assets/img/ferrari-488.jpg'},
+ {cat:'suv', bdg:'Unit Pameran', name:'Lamborghini Urus', yr:2021, km:'14.800 km', tr:'AT 8-Speed', en:'4.0L V8 Twin-Turbo', pr:'Rp 6,75 M', img:'assets/img/lamborghini-urus.jpg'},
+ {cat:'sport', bdg:'Low KM', name:'Porsche 911 Carrera S', yr:2020, km:'11.400 km', tr:'PDK', en:'3.0L Flat-6', pr:'Rp 2,89 M', img:'assets/img/porsche-911.jpg'},
+ {cat:'sport', bdg:'Tersedia', name:'Mercedes-AMG GT', yr:2019, km:'21.000 km', tr:'DCT', en:'4.0L V8 Biturbo', pr:'Rp 1,95 M', img:'assets/img/mercedes-amg-gt.jpg'},
+ {cat:'sport', bdg:'Baru Datang', name:'BMW M4 Competition', yr:2021, km:'9.700 km', tr:'AT 8-Speed', en:'3.0L Inline-6', pr:'Rp 1,45 M', img:'assets/img/bmw-m4.jpg'},
+ {cat:'sport', bdg:'Tersedia', name:'Audi R8 V10 Plus', yr:2018, km:'24.500 km', tr:'DCT', en:'5.2L V10 FSI', pr:'Rp 2,15 M', img:'assets/img/audi-r8.jpg'},
+ {cat:'sedan', bdg:'Koleksi Langka', name:'Rolls-Royce Ghost', yr:2019, km:'16.300 km', tr:'AT 8-Speed', en:'6.75L V12', pr:'Rp 7,90 M', img:'assets/img/rolls-royce.jpg'},
+ {cat:'sport', bdg:'Tersedia', name:'Chevrolet Camaro SS', yr:2019, km:'19.800 km', tr:'Manual 6-Speed', en:'6.2L V8', pr:'Rp 899 Jt', img:'assets/img/chevrolet-camaro.jpg'},
+ {cat:'sport', bdg:'Favorit', name:'Ford Mustang GT', yr:2020, km:'17.500 km', tr:'AT 10-Speed', en:'5.0L V8 Coyote', pr:'Rp 789 Jt', img:'assets/img/ford-mustang.jpg'},
+ {cat:'ev', bdg:'Listrik', name:'Tesla Model S', yr:2021, km:'22.100 km', tr:'Single-Speed', en:'Dual Motor AWD', pr:'Rp 1,15 M', img:'assets/img/tesla-models.jpg'},
+ {cat:'klasik', bdg:'Antik', name:'Ford Deluxe 1940', yr:1940, km:'—', tr:'Manual', en:'Flathead V8', pr:'Rp 425 Jt', img:'assets/img/ford-classic.jpg'},
+ {cat:'motor', bdg:'Tersedia', name:'Ducati Panigale V4', yr:2022, km:'4.200 km', tr:'Quickshifter', en:'1.103cc V4', pr:'Rp 425 Jt', img:'assets/img/motorcycle-1.jpg'},
+ {cat:'motor', bdg:'Baru Datang', name:'Cruiser Heritage 1900', yr:2021, km:'8.900 km', tr:'AT 6-Speed', en:'1.902cc V-Twin', pr:'Rp 335 Jt', img:'assets/img/motorcycle-2.jpg'}
+];
+const icKm='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 12l4-4"/></svg>';
+const icTr='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><path d="M8.2 7.5L18 17M18 7L8.2 16.5"/></svg>';
+const icEn='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L4 14h6l-1 7 9-11h-6z"/></svg>';
+const icWa='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm5 14.2c-.2.6-1.2 1.2-1.7 1.2-.4.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.5-2.6-1.1-4.3-3.7-4.4-3.9-.1-.2-1.1-1.4-1.1-2.7s.7-1.9.9-2.2c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5s.7 1.8.8 1.9c.1.1.1.3 0 .5-.3.6-.7.9-.5 1.2.7 1.2 1.6 2 2.8 2.6.3.2.5.1.7-.1l.9-1c.2-.3.4-.2.7-.1l1.9.9c.3.1.5.2.5.3.1.1.1.5-.2 1.3z"/></svg>';
+const icAr='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+const grid=$('#grid');
+grid.innerHTML=UNITS.map((u,i)=>`
+<article class="vcard io" data-cat="${u.cat}" data-name="${u.name.toLowerCase()}" style="transition-delay:${(i%3)*90}ms">
+ <div class="vc-media" data-lb>
+  <img src="${u.img}" alt="${u.name} — foto unit asli" loading="lazy">
+  <div class="vc-bdg"><span class="bdg bdg-new">${u.bdg}</span><span class="bdg bdg-glass">${u.yr}</span></div>
+  <button class="fav" aria-label="Simpan ke favorit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5S3.5 15.5 3.5 9.7C3.5 6.9 5.7 5 8.1 5c1.6 0 3 .8 3.9 2.1C12.9 5.8 14.3 5 15.9 5c2.4 0 4.6 1.9 4.6 4.7 0 5.8-8.5 10.8-8.5 10.8z"/></svg></button>
+ </div>
+ <div class="vc-body">
+  <span class="vc-cat">${({sport:'Sport & Performa',sedan:'Sedan Prestise',suv:'Super SUV',ev:'Listrik',klasik:'Klasik',motor:'Motor Premium'})[u.cat]}</span>
+  <h3 class="vc-t">${u.name}</h3>
+  <div class="vc-meta"><span>${icKm}${u.km}</span><span>${icTr}${u.tr}</span><span>${icEn}${u.en}</span></div>
+  <div class="vc-foot">
+   <span class="vc-price">${u.pr}</span>
+   <div class="vc-act">
+    <a class="ic" href="https://wa.me/${WA}?text=Halo%2C%20saya%20tertarik%20dengan%20${encodeURIComponent(u.name)}%20(${u.yr})" target="_blank" rel="noopener" aria-label="Tanya via WhatsApp">${icWa}</a>
+    <button class="ic gold" data-toast="Detail ${u.name} segera hadir (demo)." aria-label="Lihat detail">${icAr}</button>
+   </div>
+  </div>
+ </div>
+</article>`).join('');
+
+/* ---------- Preloader ---------- */
+let pct=0;
+const preTick=setInterval(()=>{
+ pct=Math.min(100,pct+Math.random()*16+6);
+ $('#preBar').style.transform=`scaleX(${pct/100})`;
+ $('#prePct').textContent=Math.round(pct)+'%';
+ if(pct>=100){clearInterval(preTick);
+  setTimeout(()=>{$('#pre').classList.add('off');document.body.classList.add('loaded');
+   setTimeout(()=>$('#pre').remove(),1100);},250);}
+},110);
+
+/* ---------- Nav ---------- */
+const nav=$('#nav');
+addEventListener('scroll',()=>{nav.classList.toggle('solid',scrollY>40);
+ $('#top').classList.toggle('on',scrollY>900);},{passive:true});
+$('#top').addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+const mmenu=$('#mmenu');
+$('#burger').addEventListener('click',()=>{mmenu.classList.add('on');document.body.classList.add('lock')});
+const closeM=()=>{mmenu.classList.remove('on');document.body.classList.remove('lock')};
+$('#mmenuX').addEventListener('click',closeM);
+$$('#mmenu a').forEach(a=>a.addEventListener('click',closeM));
+
+/* ---------- Cursor ---------- */
+if(matchMedia('(hover:hover) and (pointer:fine)').matches){
+ const cur=$('#cur'),curD=$('#curD');let mx=0,my=0,cx=0,cy=0;
+ addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;curD.style.left=mx+'px';curD.style.top=my+'px';});
+ (function loop(){cx+=(mx-cx)*.14;cy+=(my-cy)*.14;cur.style.left=cx+'px';cur.style.top=cy+'px';requestAnimationFrame(loop)})();
+ document.addEventListener('mouseover',e=>{cur.classList.toggle('big',!!e.target.closest('a,button,.vc-media,.gimg,input'))});
+}else{document.body.style.cursor='auto'}
+document.documentElement.style.cursor='none';
+if(!matchMedia('(hover:hover) and (pointer:fine)').matches)document.documentElement.style.cursor='';
+
+/* ---------- Reveal ---------- */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+$$('.io').forEach(el=>io.observe(el));
+
+/* ---------- Counters ---------- */
+const cio=new IntersectionObserver(es=>es.forEach(e=>{
+ if(!e.isIntersecting)return;cio.unobserve(e.target);
+ const el=e.target,end=parseFloat(el.dataset.count),dec=parseInt(el.dataset.dec||'0'),t0=performance.now();
+ (function step(t){const p=Math.min(1,(t-t0)/1600),v=end*(1-Math.pow(1-p,3));
+  el.textContent=dec?v.toFixed(dec).replace('.',','):Math.round(v);
+  if(p<1)requestAnimationFrame(step)})(t0);
+}),{threshold:.5});
+$$('[data-count]').forEach(el=>cio.observe(el));
+
+/* ---------- Spotlight parallax ---------- */
+const spImg=$('#spotImg'),spEl=spImg?.querySelector('img');
+if(spEl){addEventListener('scroll',()=>{
+ const r=spImg.getBoundingClientRect(),vh=innerHeight;
+ if(r.top<vh&&r.bottom>0){const p=(r.top+r.height/2-vh/2)/vh;spEl.style.transform=`translateY(${p*-38}px) scale(1.04)`;}
+},{passive:true})}
+
+/* ---------- Filter + search ---------- */
+const fbtns=$$('.fbtn'),q=$('#q');let curF='semua';
+function applyFilter(){
+ let vis=0;
+ $$('.vcard').forEach(c=>{
+  const okF=curF==='semua'||c.dataset.cat===curF;
+  const okQ=c.dataset.name.includes(q.value.trim().toLowerCase());
+  const show=okF&&okQ;
+  c.style.display=show?'':'none';if(show)vis++;
+  c.classList.remove('in');requestAnimationFrame(()=>requestAnimationFrame(()=>c.classList.add('in')));
+ });
+ $('#empty').style.display=vis?'none':'block';
+}
+fbtns.forEach(b=>b.addEventListener('click',()=>{fbtns.forEach(x=>x.classList.remove('on'));b.classList.add('on');curF=b.dataset.f;applyFilter();}));
+q.addEventListener('input',applyFilter);
+
+/* ---------- Testimoni slider ---------- */
+const slides=$$('.tslide'),dots=$('#tdots');let ti=0,tTimer;
+slides.forEach((_,i)=>{const b=document.createElement('button');
+ b.setAttribute('aria-label','Testimoni '+(i+1));
+ b.addEventListener('click',()=>goT(i));dots.appendChild(b);});
+function goT(i){ti=i;slides.forEach((s,k)=>s.classList.toggle('on',k===i));
+ $$('#tdots button').forEach((d,k)=>d.classList.toggle('on',k===i));
+ clearInterval(tTimer);tTimer=setInterval(()=>goT((ti+1)%slides.length),6000);}
+goT(0);
+
+/* ---------- Lightbox ---------- */
+document.addEventListener('click',e=>{
+ const t=e.target.closest('[data-lb]');if(!t)return;
+ const img=t.querySelector('img');if(!img)return;
+ const lb=document.createElement('div');lb.className='lbx';
+ lb.innerHTML=`<img src="${img.src}" alt="${img.alt}"><span class="x"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span>`;
+ lb.addEventListener('click',()=>lb.remove());
+ document.addEventListener('keydown',function esc(ev){if(ev.key==='Escape'){lb.remove();document.removeEventListener('keydown',esc)}});
+ document.body.appendChild(lb);document.body.classList.add('lock');
+ new MutationObserver((m,ob)=>{if(!lb.isConnected){document.body.classList.remove('lock');ob.disconnect()}}).observe(document.body,{childList:true});
+});
+
+/* ---------- Toast ---------- */
+let toastTimer;
+document.addEventListener('click',e=>{
+ const t=e.target.closest('[data-toast]');if(!t)return;
+ e.preventDefault();
+ $('#toastMsg').textContent=t.dataset.toast;
+ $('#toast').classList.add('on');
+ clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('on'),3200);
+});
+
+/* ---------- Marquee duplicate ---------- */
+const mq=$('#mqTrack');mq.innerHTML+=mq.innerHTML;
+</script>
+</body>
+</html>
